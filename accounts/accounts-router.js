@@ -2,6 +2,7 @@ const express = require("express");
 const db = require("../data/dbConfig.js");
 const router = express.Router();
 
+// GET /api/accounts
 router.get("/", (req, res) => {
   db("accounts")
     .select("*")
@@ -15,6 +16,7 @@ router.get("/", (req, res) => {
     });
 });
 
+// GET /api/accounts/:id
 router.get("/:id", (req, res) => {
   const { id } = req.params;
   db("accounts")
@@ -34,5 +36,20 @@ router.get("/:id", (req, res) => {
       });
     });
 });
+
+router.post("/", (req, res) => {
+   const accountData = req.body; 
+
+   db("accounts")
+   .insert(accountData)
+   .then(account => {
+      res.status(201).json(account)
+   })
+   .catch(err => {
+      res.status(500).json({
+         Message: "Database Problem"
+      })
+   })
+})
 
 module.exports = router;
