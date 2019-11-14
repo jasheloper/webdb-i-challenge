@@ -2,7 +2,7 @@ const express = require("express");
 const db = require("../data/dbConfig.js");
 const router = express.Router();
 
-// GET /api/accounts
+// READ /api/accounts
 router.get("/", (req, res) => {
   db("accounts")
     .select("*")
@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
     });
 });
 
-// GET /api/accounts/:id
+// READ /api/accounts/:id
 router.get("/:id", (req, res) => {
   const { id } = req.params;
   db("accounts")
@@ -37,19 +37,43 @@ router.get("/:id", (req, res) => {
     });
 });
 
+// CREATE /api/accounts/
 router.post("/", (req, res) => {
-   const accountData = req.body; 
+  const accountData = req.body;
 
-   db("accounts")
-   .insert(accountData)
-   .then(account => {
-      res.status(201).json(account)
-   })
-   .catch(err => {
+  db("accounts")
+    .insert(accountData)
+    .then(account => {
+      res.status(201).json(account);
+    })
+    .catch(err => {
       res.status(500).json({
-         Message: "Database Problem"
-      })
-   })
-})
+        Message: "Database Problem"
+      });
+    });
+});
+
+// UPDATE /api/accounts
+router.put("/:id", (req, res) => {
+   const { id } = req.params;
+   const changes = req.body;
+ 
+   db("accounts")
+     .where({ id })
+     .update(changes)
+     .then(count => {
+       if (count) {
+         res.status(200).json({ updated: count });
+       } else {
+         res.status(404).json({ message: "invalid id" });
+       }
+     })
+     .catch(err => {
+       res.status(500).json({ message: "db problem" });
+     });
+ });
+
+router.delete(() => {});
+
 
 module.exports = router;
