@@ -41,7 +41,7 @@ limit 10;
 - find all customers that live in London, Madrid, or Brazil. Returns 18 records.
 ```
 SELECT * FROM [Customers]
-WHERE Country IN ('London','Madrid','Brazil');
+WHERE city = "London" or city = "Madrid" or country = "Brazil"
 ```
 
 - add a customer record for _"The Shire"_, the contact name is _"Bilbo Baggins"_ the address is _"1 Hobbit-Hole"_ in _"Bag End"_, postal code _"111"_ and the country is _"Middle Earth"_.
