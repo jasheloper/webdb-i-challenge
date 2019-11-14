@@ -73,7 +73,21 @@ router.put("/:id", (req, res) => {
      });
  });
 
-router.delete(() => {});
+
+ router.delete("/:id", (req, res) => {
+   const {id} = req.params;
+   db('accounts')
+   .where({id})
+   .del()
+      .then(count => {
+         count 
+         ? res.status(200).json({ deleted: count})
+         : res.status(404).json({message: 'invalid id'})
+      }) 
+      .catch(err => {
+         res.status(500).json({message: 'Problem with the database'})
+      }) 
+   });
 
 
 module.exports = router;
