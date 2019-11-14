@@ -1,4 +1,4 @@
-# Database Queries
+# Database Queries - Jashele Tillman
 
 ## Topics
 
